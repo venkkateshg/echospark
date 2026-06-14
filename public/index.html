@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Echo Spark — Creative Momentum Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- HEADER                                                                  -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="/">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">Echo<span class="logo-accent">Spark</span></span>
+      </a>
+      <nav class="header-nav">
+        <span id="username-display" class="username-badge" style="display:none;"></span>
+        <button id="demo-toggle-btn" class="btn btn-ghost btn-sm">Demo Mode</button>
+        <a id="login-btn" href="/auth/login" class="btn btn-primary btn-sm">Login with M365</a>
+        <button id="logout-btn" class="btn btn-ghost btn-sm" style="display:none;">Logout</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- HERO                                                                    -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+    <div class="hero-content">
+      <div class="hero-badge">AI Creative Momentum Engine</div>
+      <h1 class="hero-headline">
+        The internet is drowning<br>in AI content.
+        <br><span class="hero-accent">Echo Spark makes yours<br>the only one that sounds like you.</span>
+      </h1>
+      <p class="hero-sub">
+        Analyze your content archive to extract your unique voice fingerprint,
+        then let ForgeBoard transform any raw idea into scripts that are unmistakably <em>you</em>.
+      </p>
+      <div class="hero-cta">
+        <button id="hero-analyze-btn" class="btn btn-primary btn-lg">Analyze My Archive</button>
+        <button id="hero-demo-btn" class="btn btn-ghost btn-lg">&#9654; Watch Full Demo</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 1: Analyze Archive                                              -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="analyze-section" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="step-badge">Step 0</div>
+        <h2 class="section-title">Analyze Your Content Archive</h2>
+        <p class="section-desc">Connect your Microsoft 365 archive to extract your unique voice fingerprint from past content.</p>
+      </div>
+
+      <div class="analyze-actions">
+        <button id="analyze-btn" class="btn btn-primary btn-lg">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Analyze M365 Archive
+        </button>
+        <button id="demo-btn" class="btn btn-ghost btn-lg">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Run Demo Mode
+        </button>
+      </div>
+
+      <!-- Loading state -->
+      <div id="analyze-loading" class="loading-state" style="display:none;">
+        <div class="spinner"></div>
+        <p id="analyze-loading-text" class="loading-text">Analyzing your content archive...</p>
+      </div>
+
+      <!-- Fingerprint Card -->
+      <div id="fingerprint-card" class="glass-card fingerprint-card" style="display:none;">
+        <div class="fingerprint-header">
+          <div class="fingerprint-icon">🧬</div>
+          <div>
+            <h3 class="fingerprint-title">Voice Fingerprint</h3>
+            <p id="fingerprint-meta" class="fingerprint-meta">Loading...</p>
+          </div>
+          <div id="fingerprint-demo-badge" class="badge badge-cyan" style="display:none;">Demo</div>
+        </div>
+
+        <div class="fingerprint-grid">
+          <div class="fingerprint-block">
+            <div class="fingerprint-block-label">Writing Personality</div>
+            <div id="fp-personality" class="fingerprint-block-value">—</div>
+          </div>
+          <div class="fingerprint-block">
+            <div class="fingerprint-block-label">Sentence Rhythm</div>
+            <div id="fp-rhythm" class="fingerprint-block-value">—</div>
+          </div>
+        </div>
+
+        <div class="fingerprint-tags-row">
+          <div class="fingerprint-tags-group">
+            <div class="fingerprint-tags-label">Topic Obsessions</div>
+            <div id="fp-obsessions" class="tags-list"></div>
+          </div>
+          <div class="fingerprint-tags-group">
+            <div class="fingerprint-tags-label">Emotional Registers</div>
+            <div id="fp-registers" class="tags-list"></div>
+          </div>
+          <div class="fingerprint-tags-group">
+            <div class="fingerprint-tags-label">Hook Structures</div>
+            <div id="fp-hooks" class="tags-list"></div>
+          </div>
+        </div>
+
+        <div class="fingerprint-metrics">
+          <div class="metric">
+            <div id="fp-count" class="metric-value">—</div>
+            <div class="metric-label">Documents Analyzed</div>
+          </div>
+          <div class="metric">
+            <div id="fp-patterns" class="metric-value">—</div>
+            <div class="metric-label">Patterns Detected</div>
+          </div>
+          <div class="metric">
+            <div id="fp-sources" class="metric-value">—</div>
+            <div class="metric-label">Sources</div>
+          </div>
+        </div>
+
+        <!-- Work IQ Panel -->
+        <div id="workiq-panel" class="workiq-panel" style="display:none;">
+          <div class="workiq-panel-header">
+            <span class="workiq-badge">⚡ Powered by Work IQ</span>
+            <span id="workiq-status-label" class="workiq-status-label"></span>
+          </div>
+          <div id="workiq-insight-text" class="workiq-insight-text"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 2: ForgeBoard Input                                             -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="forgeboard-section" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="step-badge">ForgeBoard</div>
+        <h2 class="section-title">Transform Your Raw Idea</h2>
+        <p class="section-desc">Drop any raw concept — a rant, an observation, a question — and let ForgeBoard shape it into your voice.</p>
+      </div>
+
+      <div class="glass-card forge-input-card">
+        <label for="idea-input" class="forge-label">What's your raw idea?</label>
+        <textarea
+          id="idea-input"
+          class="forge-textarea"
+          placeholder="why AI coding tools are making developers worse at fundamentals..."
+          maxlength="500"
+          rows="4"
+        ></textarea>
+        <div class="forge-footer">
+          <span id="char-count" class="char-count">0 / 500</span>
+          <button id="forge-btn" class="btn btn-primary btn-lg forge-btn">
+            <span class="forge-btn-text">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              Forge It
+            </span>
+            <span class="forge-btn-loading" style="display:none;">
+              <div class="spinner spinner-sm"></div>
+              Forging...
+            </span>
+          </button>
+        </div>
+        <div id="forge-error" class="forge-error" style="display:none;"></div>
+        <p id="forge-state-note" class="forge-state-note" style="display:none;">
+          Run <strong>Demo Mode</strong> or <strong>Analyze M365 Archive</strong> above first to load your voice fingerprint.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 3: 6-Step Reasoning Chain                                       -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="steps-section" class="section" style="display:none;">
+    <div class="container">
+      <div class="section-header">
+        <div class="step-badge">Reasoning Chain</div>
+        <h2 class="section-title">ForgeBoard at Work</h2>
+        <p class="section-desc">Six layers of intelligence, each building on the last.</p>
+      </div>
+
+      <div class="steps-grid">
+
+        <!-- Step 1: Intent Parsing -->
+        <div id="step-1" class="step-card glass-card">
+          <div class="step-card-header">
+            <div class="step-number">01</div>
+            <div class="step-info">
+              <h3 class="step-title">Intent Parsing</h3>
+              <p class="step-desc">Breaking down your raw idea into structured intent.</p>
+            </div>
+            <div class="step-status-icon"><div class="spinner spinner-sm"></div></div>
+          </div>
+          <div class="step-content" id="step-1-content">
+            <div class="intent-grid">
+              <div class="intent-item">
+                <div class="intent-label">Topic</div>
+                <div id="intent-topic" class="intent-value">—</div>
+              </div>
+              <div class="intent-item">
+                <div class="intent-label">Format</div>
+                <div id="intent-format" class="intent-value intent-badge">—</div>
+              </div>
+              <div class="intent-item">
+                <div class="intent-label">Platform</div>
+                <div id="intent-platform" class="intent-value">—</div>
+              </div>
+              <div class="intent-item">
+                <div class="intent-label">Register</div>
+                <div id="intent-register" class="intent-value">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Voice Fingerprint -->
+        <div id="step-2" class="step-card glass-card">
+          <div class="step-card-header">
+            <div class="step-number">02</div>
+            <div class="step-info">
+              <h3 class="step-title">Voice Fingerprint</h3>
+              <p class="step-desc">Loading your unique creative signature.</p>
+            </div>
+            <div class="step-status-icon"><div class="spinner spinner-sm"></div></div>
+          </div>
+          <div class="step-content" id="step-2-content">
+            <div class="fp-stats">
+              <div class="fp-stat">
+                <div id="step2-patterns" class="fp-stat-value">—</div>
+                <div class="fp-stat-label">Pattern Types</div>
+              </div>
+              <div class="fp-stat">
+                <div id="step2-sources" class="fp-stat-value">—</div>
+                <div class="fp-stat-label">Sources</div>
+              </div>
+              <div class="fp-stat">
+                <div id="step2-loaded" class="fp-stat-value">—</div>
+                <div class="fp-stat-label">Loaded At</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Format Resonance -->
+        <div id="step-3" class="step-card glass-card">
+          <div class="step-card-header">
+            <div class="step-number">03</div>
+            <div class="step-info">
+              <h3 class="step-title">Format Resonance</h3>
+              <p class="step-desc">Ranking formats against your proven strengths.</p>
+            </div>
+            <div class="step-status-icon"><div class="spinner spinner-sm"></div></div>
+          </div>
+          <div class="step-content" id="step-3-content">
+            <div id="format-bars" class="format-bars"></div>
+          </div>
+        </div>
+
+        <!-- Step 4: Creative Risk -->
+        <div id="step-4" class="step-card glass-card">
+          <div class="step-card-header">
+            <div class="step-number">04</div>
+            <div class="step-info">
+              <h3 class="step-title">Creative Risk</h3>
+              <p class="step-desc">Checking how far this idea drifts from your voice.</p>
+            </div>
+            <div class="step-status-icon"><div class="spinner spinner-sm"></div></div>
+          </div>
+          <div class="step-content" id="step-4-content">
+            <div class="risk-layout">
+              <div class="drift-gauge-wrap">
+                <div class="drift-gauge">
+                  <svg class="drift-svg" viewBox="0 0 120 120" width="120" height="120">
+                    <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="10"/>
+                    <circle id="drift-arc" cx="60" cy="60" r="48" fill="none" stroke="#7c3aed" stroke-width="10"
+                      stroke-linecap="round" stroke-dasharray="301.6" stroke-dashoffset="301.6"
+                      transform="rotate(-90 60 60)"/>
+                  </svg>
+                  <div class="drift-label">
+                    <span id="drift-pct" class="drift-number">0%</span>
+                    <span class="drift-sub">drift</span>
+                  </div>
+                </div>
+              </div>
+              <div class="risk-details">
+                <div class="risk-level-row">
+                  <span class="risk-label-text">Risk Level:</span>
+                  <span id="risk-level" class="badge">—</span>
+                </div>
+                <div class="unique-angle-label">Unique Angle</div>
+                <div id="unique-angle" class="unique-angle-text">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 5: Script Generation -->
+        <div id="step-5" class="step-card glass-card step-card-wide">
+          <div class="step-card-header">
+            <div class="step-number">05</div>
+            <div class="step-info">
+              <h3 class="step-title">Script Generation</h3>
+              <p class="step-desc">Three hook variants crafted in your exact voice.</p>
+            </div>
+            <div class="step-status-icon"><div class="spinner spinner-sm"></div></div>
+          </div>
+          <div class="step-content" id="step-5-content">
+            <div id="hooks-list" class="hooks-list"></div>
+          </div>
+        </div>
+
+        <!-- Step 6: Peak Window -->
+        <div id="step-6" class="step-card glass-card">
+          <div class="step-card-header">
+            <div class="step-number">06</div>
+            <div class="step-info">
+              <h3 class="step-title">Peak Window</h3>
+              <p class="step-desc">Your optimal creation moment.</p>
+            </div>
+            <div class="step-status-icon"><div class="spinner spinner-sm"></div></div>
+          </div>
+          <div class="step-content" id="step-6-content">
+            <div class="peak-window-wrap">
+              <div class="peak-icon">📅</div>
+              <div id="peak-window-text" class="peak-window-text">—</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 4: Creative Momentum Calendar                                   -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="momentum-section" class="section" style="display:none;">
+    <div class="container">
+      <div class="section-header">
+        <div class="step-badge">Momentum</div>
+        <h2 class="section-title">Creative Velocity History</h2>
+        <p class="section-desc">Your content creation cadence over the last 26 weeks.</p>
+      </div>
+
+      <div class="glass-card momentum-card">
+        <div class="momentum-header">
+          <div class="momentum-legend">
+            <span class="legend-dot legend-dot-purple"></span><span>Weekly output</span>
+            <span class="legend-dot legend-dot-cyan"></span><span>4-week avg</span>
+          </div>
+          <div id="peak-window-inline" class="peak-inline-wrap" style="display:none;">
+            <span class="peak-inline-label">Next Peak Window:</span>
+            <span id="peak-window-inline-text" class="peak-inline-text">—</span>
+          </div>
+        </div>
+        <div id="velocity-chart" class="velocity-chart"></div>
+        <div class="velocity-x-labels" id="velocity-x-labels"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 5: Final Output Panel                                           -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="output-section" class="section" style="display:none;">
+    <div class="container">
+      <div class="section-header">
+        <div class="step-badge">Final Output</div>
+        <h2 class="section-title">Your Forged Content</h2>
+        <p class="section-desc">Ready to create. This hook is unmistakably yours.</p>
+      </div>
+
+      <div class="output-grid">
+
+        <div class="glass-card output-hook-card">
+          <div class="output-hook-label">Top Hook</div>
+          <blockquote id="output-hook-text" class="output-hook-text">—</blockquote>
+          <div class="output-hook-actions">
+          <button id="copy-hook-btn" class="btn btn-ghost btn-sm copy-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy
+          </button>
+          <button id="forge-another-btn" class="btn btn-primary btn-sm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            Forge Another Idea
+          </button>
+          </div>
+        </div>
+
+        <div class="output-meta-col">
+
+          <div class="glass-card output-ring-card">
+            <div class="ring-wrap">
+              <svg class="voice-ring-svg" viewBox="0 0 140 140" width="140" height="140">
+                <circle cx="70" cy="70" r="56" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="12"/>
+                <circle id="voice-ring" cx="70" cy="70" r="56" fill="none" stroke="url(#ringGrad)" stroke-width="12"
+                  stroke-linecap="round" stroke-dasharray="351.9" stroke-dashoffset="351.9"
+                  transform="rotate(-90 70 70)"/>
+                <defs>
+                  <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#7c3aed"/>
+                    <stop offset="100%" stop-color="#06b6d4"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div class="ring-label">
+                <div id="ring-score" class="ring-score">—</div>
+                <div class="ring-sub">voice match</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card output-badges-card">
+            <div class="output-badge-row">
+              <div class="output-badge-label">Recommended Format</div>
+              <div id="output-format" class="badge badge-purple">—</div>
+            </div>
+            <div class="output-badge-row">
+              <div class="output-badge-label">Drift Risk</div>
+              <div id="output-drift" class="badge">—</div>
+            </div>
+            <div class="output-badge-row output-angle-row">
+              <div class="output-badge-label">Unique Angle</div>
+              <div id="output-angle" class="output-angle-text">—</div>
+            </div>
+            <div class="output-badge-row">
+              <div class="output-badge-label">Create Window</div>
+              <div id="output-peak" class="output-peak-text">—</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- FOOTER                                                                  -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="logo-text logo-sm">⚡ Echo<span class="logo-accent">Spark</span></span>
+      <span class="footer-copy">AI Creative Momentum Engine &mdash; your voice, amplified.</span>
+    </div>
+  </footer>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script src="app.js"></script>
+</body>
+</html>

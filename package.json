@@ -1,0 +1,21 @@
+{
+  "name": "echospark",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Echo Spark — AI Creative Momentum Engine for Content Creators",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@azure/msal-node": "^5.2.3",
+    "@microsoft/microsoft-graph-client": "^3.0.7",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-session": "^1.18.1"
+  }
+}
